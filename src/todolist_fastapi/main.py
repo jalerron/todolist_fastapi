@@ -4,7 +4,8 @@ from fastapi.templating import Jinja2Templates
 
 import os
 
-from todolist_fastapi.config.config import settings
+from config.config import settings
+from api import route
 
 # Создаем приложение
 app = FastAPI(
@@ -13,10 +14,8 @@ app = FastAPI(
     description="FastAPI To-Do List application managed with Poetry"
 )
 
-#Путь для шаблонов
-current_dir = os.path.dirname(os.path.abspath(__file__))
-templates_dir = os.path.join(current_dir, "templates")
-templates = Jinja2Templates(directory=templates_dir)
+
+app.include_router(route.router)
 
 if __name__ == "__main__":
     uvicorn.run(
