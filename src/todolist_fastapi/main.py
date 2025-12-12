@@ -4,8 +4,8 @@ from fastapi.templating import Jinja2Templates
 
 import os
 
-from config.config import settings
-from api import route
+from .config.config import settings
+from .api import route
 
 # Создаем приложение
 app = FastAPI(

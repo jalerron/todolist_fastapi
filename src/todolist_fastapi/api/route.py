@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from todolist_fastapi.classes import Task
 from todolist_fastapi.dir import templates
 
-from data.data import tasks
+from todolist_fastapi.data.data import tasks
 
 router = APIRouter(tags=["tasks"],
                    responses={404: {"description": "Not found"}}
