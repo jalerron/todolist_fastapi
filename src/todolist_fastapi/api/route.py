@@ -4,10 +4,14 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from todolist_fastapi.classes import Task
 from todolist_fastapi.dir import templates
 
-router = APIRouter(prefix="/tasks",
-                   tags=["tasks"],
+from data.data import tasks
+
+router = APIRouter(tags=["tasks"],
                    responses={404: {"description": "Not found"}}
 )
+
+
+task_id_counter = 0
 
 @router.get("/", response_class=HTMLResponse)
 async def read_tasks(request: Request):
