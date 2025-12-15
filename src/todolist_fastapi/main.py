@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
@@ -6,6 +7,15 @@ import os
 
 from config.config import settings
 from api import route
+from todolist_fastapi.db.db_helper import db_helper
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    yield
+    # Shutdown
+    await db_helper.dispose()
+
 
 # Создаем приложение
 app = FastAPI(
