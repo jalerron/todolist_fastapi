@@ -7,11 +7,15 @@ import os
 
 from config.config import settings
 from api import route
+from todolist_fastapi.core.base import Base
 from todolist_fastapi.db.db_helper import db_helper
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
+    # Startup 
+    # print("Connection succces")
+    async with db_helper.engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
     yield
     # Shutdown
     await db_helper.dispose()
@@ -19,6 +23,7 @@ async def lifespan(app: FastAPI):
 
 # Создаем приложение
 app = FastAPI(
+    lifespan=lifespan,
     title="To-Do List with Poetry",
     version="1.0.0",
     description="FastAPI To-Do List application managed with Poetry"
