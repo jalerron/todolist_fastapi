@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from typing import Optional
 from sqlalchemy import URL
 
 
@@ -19,6 +19,18 @@ class DatabaseConfig(BaseModel):
     pool_size: int = 50
     
 
+class AuthConfig(BaseModel):
+    SECRET_KEY: str = "Secret key"
+    JWT_ALGORITHM: str = "HS256"
+    ACCES_TOKEN_EXPIRE_MINUTES: int = 30
+
+    #SMTP
+    SMTP_HOST: Optional[str] = None
+    SMTP_PORT: Optional[int] = None
+    SMTP_USER: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    EMAILS_FROM_EMAIL: Optional[str] = None
+
 class RunConfig(BaseModel):
     server_host: str = '127.0.0.1'
     server_port: int = 8000
@@ -34,6 +46,7 @@ class Settings(BaseSettings):
     
     run: RunConfig = RunConfig()
     db: DatabaseConfig = DatabaseConfig()
+    auth: AuthConfig = AuthConfig()
     
 
 settings = Settings(
